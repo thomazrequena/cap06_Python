@@ -1,4 +1,5 @@
 import os
+import subprocess
 import oracledb
 
 # Conexão com Oracle
@@ -18,7 +19,8 @@ while True:
     2 - Listar Fases
     3 - Alterar Fase
     4 - Excluir Fase
-    5 - Sair
+    5 - Cadastrar Parâmetros Atuais
+    6 - Sair
     """)
 
     try:
@@ -53,8 +55,6 @@ while True:
                         :n, :p, :k)
             """
 
-            cursor.setinputsizes(descricao=oracledb.CLOB)
-
             cursor.execute(sql, {
                 "nome": nome,
                 "descricao": descricao,
@@ -77,11 +77,11 @@ while True:
 
     elif opcao == 2:
         try:
-            cursor.execute("SELECT ID, NOME, DURACAO_ESTIMADA FROM FASES_CULTIVO")
+            cursor.execute("SELECT ID, NOME, DURACAO_ESTIMADA, ILUMINACAO_HRS FROM FASES_CULTIVO")
             fases = cursor.fetchall()
             print("\n--- Fases Cadastradas ---")
             for f in fases:
-                print(f"ID: {f[0]} | Nome: {f[1]} | Duração: {f[2]} dias")
+                print(f"ID: {f[0]} | Nome: {f[1]} | Duração: {f[2]} dias | Luz: {f[3]}h")
         except Exception as e:
             print("Erro ao listar fases:", e)
         input("\nPressione ENTER para continuar...")
@@ -90,62 +90,29 @@ while True:
         try:
             id_fase = int(input("ID da fase a alterar: "))
 
-            # Buscar dados atuais
-            cursor.execute("SELECT * FROM FASES_CULTIVO WHERE ID = :id", {"id": id_fase})
-            fase = cursor.fetchone()
-
-            if not fase:
-                print("⚠️ Fase não encontrada!")
-                input("Pressione ENTER para continuar...")
-                continue
-
-            descricao_texto = fase[2].read() if fase[2] else ""
-
-            print("\n--- Dados Atuais da Fase ---")
-            print(f"Nome................: {fase[1]}")
-            print(f"Descrição...........: {descricao_texto[:100]}{'...' if len(descricao_texto) > 100 else ''}")
-            print(f"Duração Estimada....: {fase[3]} dias")
-            print(f"Iluminação..........: {fase[4]} horas/dia")
-            print(f"Umidade Mínima......: {fase[5]}%")
-            print(f"Umidade Máxima......: {fase[6]}%")
-            print(f"Temperatura Mínima..: {fase[7]}°C")
-            print(f"Temperatura Máxima..: {fase[8]}°C")
-            print(f"Nitrogênio..........: {fase[9]}")
-            print(f"Fósforo.............: {fase[10]}")
-            print(f"Potássio............: {fase[11]}")
-
-            print("\n--- Informe os novos valores ---")
-            novo_nome = input("Novo nome..............................: ")
-            nova_descricao = input("Nova descrição.........................: ")
-            nova_duracao = int(input("Nova duração estimada (dias)..........: "))
-            nova_iluminacao = int(input("Nova iluminação (horas/dia)...........: "))
-            nova_umid_min = float(input("Nova umidade mínima (%)...............: "))
-            nova_umid_max = float(input("Nova umidade máxima (%)...............: "))
-            nova_temp_min = float(input("Nova temperatura mínima (°C)..........: "))
-            nova_temp_max = float(input("Nova temperatura máxima (°C)..........: "))
-            novo_n = input("Novo nível de nitrogênio..............: ")
-            novo_p = input("Novo nível de fósforo.................: ")
-            novo_k = input("Novo nível de potássio................: ")
-
-            sql = """
-                UPDATE FASES_CULTIVO 
-                SET NOME = :nome,
-                    DESCRICAO = :descricao,
-                    DURACAO_ESTIMADA = :duracao,
-                    ILUMINACAO_HRS = :iluminacao,
-                    UMIDADE_MIN = :umid_min,
-                    UMIDADE_MAX = :umid_max,
-                    TEMP_MIN = :temp_min,
-                    TEMP_MAX = :temp_max,
-                    NITROGENIO = :n,
-                    FOSFORO = :p,
-                    POTASSIO = :k
-                WHERE ID = :id
-            """
+            print("\n--- Dados novos ---")
+            novo_nome = input("Novo nome.........................: ")
+            nova_descricao = input("Nova descrição....................: ")
+            nova_duracao = int(input("Nova duração estimada (dias).....: "))
+            nova_iluminacao = int(input("Nova iluminação (horas/dia)......: "))
+            nova_umid_min = float(input("Nova umidade mínima (%)..........: "))
+            nova_umid_max = float(input("Nova umidade máxima (%)..........: "))
+            nova_temp_min = float(input("Nova temperatura mínima (°C).....: "))
+            nova_temp_max = float(input("Nova temperatura máxima (°C).....: "))
+            novo_n = input("Novo Nitrogênio (alto/médio/baixo): ")
+            novo_p = input("Novo Fósforo   (alto/médio/baixo): ")
+            novo_k = input("Novo Potássio  (alto/médio/baixo): ")
 
             cursor.setinputsizes(descricao=oracledb.CLOB)
 
-            cursor.execute(sql, {
+            cursor.execute("""
+                UPDATE FASES_CULTIVO 
+                SET NOME = :nome, DESCRICAO = :descricao, DURACAO_ESTIMADA = :duracao, 
+                    ILUMINACAO_HRS = :iluminacao, UMIDADE_MIN = :umid_min, UMIDADE_MAX = :umid_max,
+                    TEMP_MIN = :temp_min, TEMP_MAX = :temp_max, NITROGENIO = :n,
+                    FOSFORO = :p, POTASSIO = :k
+                WHERE ID = :id
+            """, {
                 "nome": novo_nome,
                 "descricao": nova_descricao,
                 "duracao": nova_duracao,
@@ -162,7 +129,6 @@ while True:
 
             conn.commit()
             print("\n✔️ Fase alterada com sucesso!")
-
         except Exception as e:
             print("Erro ao alterar fase:", e)
         input("\nPressione ENTER para continuar...")
@@ -177,7 +143,76 @@ while True:
             print("Erro ao excluir fase:", e)
         input("\nPressione ENTER para continuar...")
 
-    elif opcao == 5:
+    elif opcao == 5:  # Cadastro de Parâmetros Atuais
+        try:
+            print("\n--- Cadastrar Parâmetros Atuais ---")
+            id_fase = int(input("ID da Fase de Cultivo: "))
+            umidade_atual = float(input("Umidade Atual (%): "))
+            temperatura_atual = float(input("Temperatura Atual (°C): "))
+            iluminacao_atual = int(input("Horas de Iluminação Atual: "))
+            nitrogenio_atual = input("Nitrogênio Atual (alto/médio/baixo): ")
+            fosforo_atual = input("Fósforo Atual (alto/médio/baixo): ")
+            potassio_atual = input("Potássio Atual (alto/médio/baixo): ")
+
+            sql = """
+                INSERT INTO MONITORAMENTO_PARAMETROS 
+                (ID_FASE_CULTIVO, UMIDADE_ATUAL, TEMPERATURA_ATUAL, 
+                 ILUMINACAO_ATUAL, NITROGENIO_ATUAL, FOSFORO_ATUAL, POTASSIO_ATUAL)
+                VALUES (:id_fase, :umidade_atual, :temperatura_atual, 
+                        :iluminacao_atual, :nitrogenio_atual, :fosforo_atual, :potassio_atual)
+            """
+
+            cursor.execute(sql, {
+                "id_fase": id_fase,
+                "umidade_atual": umidade_atual,
+                "temperatura_atual": temperatura_atual,
+                "iluminacao_atual": iluminacao_atual,
+                "nitrogenio_atual": nitrogenio_atual,
+                "fosforo_atual": fosforo_atual,
+                "potassio_atual": potassio_atual
+            })
+
+            conn.commit()
+            print("\n✔️ Parâmetros atuais cadastrados com sucesso!")
+
+            # Verificar divergência com FASES_CULTIVO
+            cursor.execute("""
+                SELECT UMIDADE_MIN, UMIDADE_MAX, TEMP_MIN, TEMP_MAX, 
+                       ILUMINACAO_HRS, NITROGENIO, FOSFORO, POTASSIO
+                FROM FASES_CULTIVO WHERE ID = :id
+            """, {"id": id_fase})
+            ideal = cursor.fetchone()
+
+            divergente = False
+            if ideal:
+                umid_min, umid_max, temp_min, temp_max, luz_ideal, n_ideal, p_ideal, k_ideal = ideal
+
+                if not (umid_min <= umidade_atual <= umid_max):
+                    divergente = True
+                elif not (temp_min <= temperatura_atual <= temp_max):
+                    divergente = True
+                elif iluminacao_atual != luz_ideal:
+                    divergente = True
+                elif nitrogenio_atual.lower() != n_ideal.lower():
+                    divergente = True
+                elif fosforo_atual.lower() != p_ideal.lower():
+                    divergente = True
+                elif potassio_atual.lower() != k_ideal.lower():
+                    divergente = True
+
+                if divergente:
+                    print("\n⚠️ Divergência detectada! Executando checklist...")
+                    subprocess.run(["python", "Cap06_Checklist.py"])
+                else:
+                    print("\n✅ Parâmetros dentro da faixa ideal.")
+            else:
+                print("⚠️ Fase de cultivo não encontrada.")
+
+        except Exception as e:
+            print("Erro ao cadastrar parâmetros atuais:", e)
+        input("\nPressione ENTER para continuar...")
+
+    elif opcao == 6:
         print("Saindo do sistema...")
         break
 
