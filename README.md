@@ -2,21 +2,19 @@ FIAP - Faculdade de Informática e Administração Paulista
 FIAP - Faculdade de Informática e Admnistração Paulista
 
 
-Nome do projeto
-Nome do grupo
-👨‍🎓 Integrantes:
-Nome do integrante 1
-Nome do integrante 2
-Nome do integrante 3
-Nome do integrante 4
-Nome do integrante 5
+Nome do projeto: Grow indoor
+
+Nome do grupo: Grow indoor
+👨‍🎓 Integrantes: Thomaz Requena
 👩‍🏫 Professores:
 Tutor(a)
 Nome do Tutor
 Coordenador(a)
 Nome do Coordenador
+
 📜 Descrição
 Descreva seu projeto com base no texto do PBL (até 600 palavras)
+Sistema para controle e ajuste de parâmetros por fase de cultivo, para culturas de plantio indoor.
 
 📁 Estrutura de pastas
 Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
