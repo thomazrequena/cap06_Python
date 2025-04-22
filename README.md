@@ -1,6 +1,6 @@
 FIAP - Faculdade de Informática e Administração Paulista  
 
-Nome do projeto: Grow indoor  
+Nome do projeto: 🌿 Capítulo 06 - Sistema de Cultivo Indoor com Python & Oracle  
 
 Nome do grupo:  
 
@@ -14,40 +14,65 @@ Nome do Tutor
 Coordenador(a)  
 Nome do Coordenador  
 
-📜 Descrição  
-Descreva seu projeto com base no texto do PBL (até 600 palavras)  
+# 🌿 Capítulo 06 - Sistema de Cultivo Indoor com Python & Oracle
 
-Sistema para controle e ajuste de parâmetros por fase de cultivo, para culturas de plantio indoor.  
-Fases de cultivo:  
-. Germinação;  
-. Plântula;  
-. Vegetativa;  
-. Floração;  
-. Pré-colheita;  
-. Colheita;  
+Este projeto faz parte do **Capítulo 06** do curso, abordando um sistema completo para controle de **fases de cultivo indoor de cannabis**. A solução inclui cadastro, monitoramento e checklist automatizado de parâmetros de cultivo utilizando **Python** com **banco de dados Oracle**.
 
+## 🔗 Repositório
+Acesse o projeto: [github.com/thomazrequena/cap06_Python](https://github.com/thomazrequena/cap06_Python)
 
-📁 Estrutura de pastas  
-Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:  
+---
 
-assets: aqui estão os arquivos relacionados a elementos não-estruturados deste repositório, como imagens.
+## 🎯 Objetivo
 
-document: aqui estão todos os documentos do projeto que as atividades poderão pedir. Na subpasta "other", adicione documentos complementares e menos importantes.
+Criar um sistema de apoio ao **cultivo indoor automatizado**, com funcionalidades para:
 
-src: Todo o código fonte criado para o desenvolvimento do projeto ao longo das 7 fases.
+- Cadastrar fases do ciclo de cultivo (germinação, vegetativo, floração, etc.)
+- Registrar parâmetros ideais e atuais (umidade, temperatura, nutrientes, luz)
+- Monitorar e validar esses parâmetros
+- Sugerir ajustes automaticamente por meio de um **checklist inteligente**
 
-README.md: arquivo que serve como guia e explicação geral sobre o projeto (o mesmo que você está lendo agora).
+---
 
-🔧 Como executar o código
-Acrescentar as informações necessárias sobre pré-requisitos (IDEs, serviços, bibliotecas etc.) e instalação básica do projeto, descrevendo eventuais versões utilizadas. Colocar um passo a passo de como o leitor pode baixar o seu código e executá-lo a partir de sua máquina ou seu repositório. Considere a explicação organizada em fase.
+## 🧩 Funcionalidades
 
-🗃 Histórico de lançamentos
-0.5.0 - XX/XX/2024 *
-0.4.0 - XX/XX/2024 *
-0.3.0 - XX/XX/2024 *
-0.2.0 - XX/XX/2024 *
-0.1.0 - XX/XX/2024 *
-📋 Licença
+### 🔧 CRUD de Fases de Cultivo (`Cap06_CrudFases.py`)
+- Cadastra, edita e remove fases de cultivo
+- Define parâmetros ideais por fase (ex: umidade mínima e máxima, nutrientes)
 
+### 📋 Monitoramento de Parâmetros
+- Registra os parâmetros ambientais **atuais**
+- Compara os valores monitorados com os ideais
+- Aciona automaticamente o checklist se houver divergências
 
-MODELO GIT FIAP por Fiap está licenciado sobre Attribution 4.0 International.
+### ✅ Checklist Automatizado (`Cap06_Checklist.py`)
+- Valida os parâmetros coletados
+- Gera orientações para ajustes quando detecta valores fora do ideal
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Python 3.x**
+- **Oracle Database** (Conexão via `oracledb`)
+- **PL/SQL** para estruturação das tabelas
+- Execução local via terminal ou IDE
+
+---
+
+## 🗃️ Estrutura do Banco de Dados
+
+### 📄 Tabela: `FASES_CULTIVO`
+Contém os parâmetros ideais de cultivo para cada fase.
+
+### 📄 Tabela: `MONITORAMENTO_PARAMETROS`
+Registra os valores ambientais monitorados periodicamente, com data/hora.
+
+---
+
+## ▶️ Como Executar o Projeto
+
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/thomazrequena/cap06_Python.git
+   cd cap06_Python
