@@ -16,7 +16,15 @@ Nome do Coordenador
 
 📜 Descrição  
 Descreva seu projeto com base no texto do PBL (até 600 palavras)  
-Sistema para controle e ajuste de parâmetros por fase de cultivo, para culturas de plantio indoor.
+Sistema para controle e ajuste de parâmetros por fase de cultivo, para culturas de plantio indoor.  
+Fases de cultivo:  
+. Germinação;  
+. Plântula;  
+. Vegetativa;  
+. Floração;  
+. Pré-colheita;  
+. Colheita;  
+
 
 📁 Estrutura de pastas  
 Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:  
