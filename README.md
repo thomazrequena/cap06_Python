@@ -1,23 +1,20 @@
-FIAP - Faculdade de Informática e Administração Paulista
-FIAP - Faculdade de Informática e Admnistração Paulista
+FIAP - Faculdade de Informática e Administração Paulista  
 
+Nome do projeto: Grow indoor  
+Nome do grupo: 
+👨‍🎓 Integrantes: Thomaz Requena  
+👩‍🏫 Professores:  
+Tutor(a)  
+Nome do Tutor  
+Coordenador(a)  
+Nome do Coordenador  
 
-Nome do projeto: Grow indoor
-
-Nome do grupo: Grow indoor /n
-👨‍🎓 Integrantes: Thomaz Requena /n
-👩‍🏫 Professores:
-Tutor(a)
-Nome do Tutor
-Coordenador(a)
-Nome do Coordenador
-
-📜 Descrição
-Descreva seu projeto com base no texto do PBL (até 600 palavras)
+📜 Descrição  
+Descreva seu projeto com base no texto do PBL (até 600 palavras)  
 Sistema para controle e ajuste de parâmetros por fase de cultivo, para culturas de plantio indoor.
 
-📁 Estrutura de pastas
-Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
+📁 Estrutura de pastas  
+Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:  
 
 assets: aqui estão os arquivos relacionados a elementos não-estruturados deste repositório, como imagens.
 
