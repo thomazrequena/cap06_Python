@@ -1,8 +1,13 @@
 FIAP - Faculdade de Informática e Administração Paulista  
 
 Nome do projeto: Grow indoor  
-Nome do grupo: 
-👨‍🎓 Integrantes: Thomaz Requena  
+
+Nome do grupo:  
+
+👨‍🎓 Integrantes:  
+
+Thomaz Requena  
+
 👩‍🏫 Professores:  
 Tutor(a)  
 Nome do Tutor  
